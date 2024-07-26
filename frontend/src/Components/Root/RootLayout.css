@@ -1,0 +1,97 @@
+.root-layout {
+  flex-direction: column;
+  min-height: 100vh; 
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  height: 80px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+nav h1 {
+  margin: 0;
+}
+
+nav a {
+
+  color: white;
+  text-decoration: none;
+  margin-left: 1rem;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+main {
+  flex-grow: 1;
+  padding: 2rem;
+}
+
+.home-link {
+  margin-top: 0px;
+}
+
+.home-link i {
+  font-size: 1rem;
+}
+
+
+
+.search-wrapper {
+display: flex;
+align-items: center;
+background-color: white;
+border-radius: 5px;
+padding: 5px 10px;
+height: 30px;
+width: 220px;
+}
+.search .search-icon {
+  color: royalblue;
+}
+.search-wrapper input {
+border: none;
+outline: none;
+padding: 5px 10px;
+border-radius: 5px;
+}
+.search-wrapper input::placeholder {
+color: #c5bebe;
+}
+
+.dataResult {
+  position: absolute;
+  background-color: white;
+
+  width: 100%;
+  max-height: 200px;
+  max-width: 220px;
+  margin-top: -5px;
+  overflow-y: auto;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+}
+.dataItem {
+  padding: 0.5rem;
+  display: flex;
+  margin-top: 5px;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  text-decoration: none;
+  color: black;
+}
+
+.dataItem:hover {
+  background-color: #f1f1f1;
+}
