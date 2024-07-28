@@ -1,99 +1,84 @@
 import React from 'react';
 import "./Create.css"
 // import { useWorkoutsContext } from '../hooks/useWorkoutsContext'
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from 'react'
+import axios from "axios";
 
 const Createform = () => {
-  const [Signup, setSignup] = useState('')
-  const [Password, setPassword] = useState('')
-  const [Email, setEmails] = useState('')
-  const [Phonenumber, setPhonenumber] = useState('')
-  const [error, setError] = useState(null)
-  const [emptyFields, setEmptyFields] = useState([])
+  const [create, setCreate] = useState({
+    firstname: "",
+    lastname: "",
+    password: "",
+    email: "",
+    Phonenumber: ""
+  });
+  const [error,setError] = useState(false)
 
-  const handleonLogin = async (e) => {
-    e.preventDefault()
+  const navigate = useNavigate();
+  const handleChange = (e) => {
+    setCreate((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
-    const workout = {Signup, Password, Email, Phonenumber}
-    
-    const response = await fetch('/api/workouts', {
-      method: 'POST',
-      body: JSON.stringify(workout),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    const json = await response.json()
-
-    if (!response.ok) {
-      setError(json.error)
-      setEmptyFields(json.emptyFields)
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:8080/post-crud", create);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      setError(true)
     }
-    if (response.ok) {
-      setEmptyFields([])
-      setError(null)
-      setSignup('')
-      setEmails('')
-      setPhonenumber('')
-      setPassword('')
-      console.log('new workout added:', json)
-    }
-
-  }
+  };
 
 
     return (
-      <form className='signup' onSubmit={handleonLogin}>
+      <div   className='form'>
         <div className="first-name">
             <input
               type='text'
               placeholder="Enter your First name"
-              onChange={(e) => setSignup(e.target.value)} 
-              value={Signup} 
-              className={emptyFields.includes('signup') ? 'error' : ''}
+              name="firstname"
+              onChange={handleChange}
             />
         </div>
         <div className="last-name">
             <input
               type='text'
               placeholder="Enter your Last name"
-              onChange={(e) => setSignup(e.target.value)} 
-              value={Signup} 
-              className={emptyFields.includes('signup') ? 'error' : ''}
+              name="lastname"
+              onChange={handleChange}
             />
         </div>
         <div className="password">
             <input
               type='password'
               placeholder="Enter your password"
-              onChange={(e) => setPassword(e.target.value)} 
-              value={Password} 
-              className={emptyFields.includes('password') ? 'error' : ''}
+              name="password"
+              onChange={handleChange}
             />
         </div>
         <div className="repassword">
             <input
               type='password'
               placeholder="Enter your password again"
-              className={emptyFields.includes('confirmpassword') ? 'error' : ''}
+              onChange={handleChange}
             />
         </div>
         <div className="email">
             <input
               type='text'
               placeholder="Enter your email"
-              onChange={(e) => setEmails(e.target.value)} 
-              value={Email} 
-              className={emptyFields.includes('email') ? 'error' : ''}
+              name="email"
+              onChange={handleChange}
             />
         </div>
         <div className="phonenumber">
             <input
               type='text'
               placeholder="Enter your phone number"
-              onChange={(e) => setPhonenumber(e.target.value)} 
-              value={Phonenumber} 
-              className={emptyFields.includes('phonenumber') ? 'error' : ''}
+              name="phonenumber"
+              onChange={handleChange}
             />
         </div>
         <div className="col-3">
@@ -102,11 +87,9 @@ const Createform = () => {
             <option value="f">Female</option>
           </select>
         </div>
-        <div className='btncreate'>
-              <button>Create</button>
-        </div>
-        {error && <div className="error">{error}</div>}
-      </form>
+        <button onClick={handleClick}>submit</button>
+        {error && "Something went wrong!"}
+      </div>
     )
 }
 export default Createform

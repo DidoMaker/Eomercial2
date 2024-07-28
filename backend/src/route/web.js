@@ -1,13 +1,20 @@
 import express from "express";
-import homeControllers from "./../controllers/homeController"
+import homeControllers from "./../controllers/homeController";
+import cors from "cors";
 
-let router = express.Router();
+
+
+const router = express();
+router.use(cors());
+router.use(express.json());
 
 let initWebRoutes = (app) => {
     router.get('/', homeControllers.gethomePage);
-    router.get('/ab', (req,res) => {
-        return res.send('Hello Word')
-    });
+    router.get('./about',homeControllers.getAboutPage);
+    router.get('./crud',homeControllers.getCRUD);
+
+    router.post('/post-crud', homeControllers.postCRUD);
+
     return app.use("/",router);
 }
 
