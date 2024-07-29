@@ -1,84 +1,123 @@
 import React from 'react';
 import "./Create.css"
-// import { useWorkoutsContext } from '../hooks/useWorkoutsContext'
-import { Link, useNavigate } from "react-router-dom";
 import { useState } from 'react'
-import axios from "axios";
 
 const Createform = () => {
-  const [create, setCreate] = useState({
-    firstname: "",
-    lastname: "",
-    password: "",
-    email: "",
-    Phonenumber: ""
-  });
-  const [error,setError] = useState(false)
+  const [firstName, setFirstname] = useState('')
+  const [lastName, setLastname] = useState('')
+  const [Username, setUsername] = useState('')
+  const [Password, setPassword] = useState('')
+  const [Cfpassword, setCfpassword] = useState('')
+  const [Email, setEmail] = useState('')
+  const [Contact, setContact] = useState('')
+  const [error, setError] = useState(null)
 
-  const navigate = useNavigate();
-  const handleChange = (e) => {
-    setCreate((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("http://localhost:8080/post-crud", create);
-      navigate("/");
-    } catch (err) {
-      console.log(err);
-      setError(true)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const workout = {firstName, lastName, Username,Password,Cfpassword,Email,Contact}
+    
+    const response = await fetch("http://localhost:8080/post-crud", {
+      method: 'POST',
+      body: JSON.stringify(workout),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await response.json()
+
+    if (!response.ok) {
+      setError(json.error)
     }
-  };
+    if (response.ok) {
+      setError(null)
+      setFirstname('')
+      setLastname('')
+      setUsername('')
+      setPassword('')
+      setCfpassword('')
+      setEmail('')
+      setContact('')
+      console.log('new workout added:', json)
+    }
+
+  }
+
+
 
 
     return (
-      <div   className='form'>
+      <form className="create" onSubmit={handleSubmit}> 
+      {/* <div   className='form'> */}
         <div className="first-name">
             <input
               type='text'
               placeholder="Enter your First name"
-              name="firstname"
-              onChange={handleChange}
+              required
+              name="firstName"
+              onChange={(e) => setFirstname(e.target.value)} 
+              value={firstName}
             />
         </div>
         <div className="last-name">
             <input
               type='text'
               placeholder="Enter your Last name"
-              name="lastname"
-              onChange={handleChange}
+              required
+              name="lastName"
+              onChange={(e) => setLastname(e.target.value)} 
+              value={lastName}
+            />
+        </div>
+        <div className="User-name">
+            <input
+              type='text'
+              placeholder="Enter username"
+              required
+              name="Username"
+              onChange={(e) => setUsername(e.target.value)} 
+              value={Username}
             />
         </div>
         <div className="password">
             <input
               type='password'
               placeholder="Enter your password"
-              name="password"
-              onChange={handleChange}
+              required
+              name="Password"
+              onChange={(e) => setPassword(e.target.value)} 
+               value={Password}
             />
         </div>
         <div className="repassword">
             <input
               type='password'
+              required
+              name='Cfpassword'
               placeholder="Enter your password again"
-              onChange={handleChange}
+              onChange={(e) => setCfpassword(e.target.value)} 
+              value={Cfpassword}
             />
         </div>
         <div className="email">
             <input
-              type='text'
+              type='email'
               placeholder="Enter your email"
-              name="email"
-              onChange={handleChange}
+              required
+              name="Email"
+              onChange={(e) => setEmail(e.target.value)} 
+              value={Email}
             />
         </div>
         <div className="phonenumber">
             <input
               type='text'
               placeholder="Enter your phone number"
-              name="phonenumber"
-              onChange={handleChange}
+              required
+              name="Contact"
+              onChange={(e) => setContact(e.target.value)} 
+              value={Contact}
             />
         </div>
         <div className="col-3">
@@ -87,9 +126,9 @@ const Createform = () => {
             <option value="f">Female</option>
           </select>
         </div>
-        <button onClick={handleClick}>submit</button>
-        {error && "Something went wrong!"}
-      </div>
+        <button>Submit</button>
+        {error && <div className="error">{error}</div>}
+      </form>
     )
 }
 export default Createform

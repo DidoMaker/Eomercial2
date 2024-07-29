@@ -1,4 +1,5 @@
 import db from '../models/index';
+import register from '../services/register'
 
 let gethomePage = async (req,res) =>{
     try {
@@ -21,9 +22,18 @@ let getCRUD = (req, res) => {
 }
 
 
-let postCRUD =  (req,res) =>{
-    console.log(req.body);
-    return res.send('post crud')
+let postCRUD = async (req, res) => {
+    let message = await register.createNewUser(req.body);
+    console.log(message);
+    return res.send('post crud from server');
+
+}
+
+let displaygetCRUD = async (req, res) => {
+    let data = await register.getAlluser();
+    console.log(data);
+    return res.send('post crud from server');
+
 }
 
 
@@ -31,5 +41,6 @@ module.exports = {
     gethomePage: gethomePage,
     postCRUD: postCRUD,
     getCRUD: getCRUD,
-    getAboutPage: getAboutPage,
+    getAboutPage: getAboutPage, 
+    displaygetCRUD: displaygetCRUD,
 }
