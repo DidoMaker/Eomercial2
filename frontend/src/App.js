@@ -4,6 +4,7 @@ import {
   Route, 
   RouterProvider
 } from 'react-router-dom'
+import { React } from "react";
 
 // pages
 import Home from './Components/Home/Home'
@@ -12,6 +13,7 @@ import Create from './Components/User/Create'
 import RootLayout from './Components/Root/RootLayout'
 import Forget from './Components/User/Forget'
 import Admin from './Components/admin/admin'
+import DataUser from './Components/admin/dataUser'
 
 
 
@@ -21,17 +23,21 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootLayout />}>
       <Route index element={<Home />} />
       <Route path="login" element={<LoginForm/>} />
-      <Route path="admin" element={<Admin/>} />
+      <Route path="admin" element={<Admin/>} />                   
       <Route path="Create" element={<Create/>} />
       <Route path="Forget" element={<Forget/>} />
+      <Route path='dataUser' element={<DataUser/>}/>
     </Route>
   )
 )
 
+
+
+
 function App() {
   return (
     <RouterProvider router={router} /> 
-  );
+  )
 }
 
 export default App

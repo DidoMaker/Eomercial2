@@ -4,7 +4,7 @@ import register from '../services/register'
 let gethomePage = async (req,res) =>{
     try {
         let data = await db.User.findAll();
-        return res.render('homepage.ejs',{
+        return res.render(__dirname + "/views/homepage.ejs",{
             data: JSON.stringify(data)
         });
 
@@ -12,6 +12,7 @@ let gethomePage = async (req,res) =>{
         console.log(e)
         
     }
+    return res.render(homePage.jsx)
 }
 let getAboutPage = (req, res) => {
     return res.render('test/about.ejs');
