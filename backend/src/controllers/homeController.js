@@ -26,14 +26,14 @@ let getCRUD = (req, res) => {
 let postCRUD = async (req, res) => {
     let message = await register.createNewUser(req.body);
     console.log(message);
-    return res.send('post crud from server');
+    return res.send('post crud from serer');v
 
 }
 
 let displaygetCRUD = async (req, res) => {
     let data = await register.getAlluser();
     console.log(data);
-    return res.send('post crud from server');
+    return res.send(data);
 
 }
 

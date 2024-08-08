@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import './dataUser.css';
+import axios from 'axios';
 import {
   GridRowModes,
   DataGrid,
@@ -27,41 +28,41 @@ const randomRole = () => {
 };
 
 const initialRows = [
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 25,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 36,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 19,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 28,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 23,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
+  // {
+  //   id: randomId(),
+  //   name: randomTraderName(),
+  //   age: 25,
+  //   joinDate: randomCreatedDate(),
+  //   role: randomRole(),
+  // },
+  // {
+  //   id: randomId(),
+  //   name: randomTraderName(),
+  //   age: 36,
+  //   joinDate: randomCreatedDate(),
+  //   role: randomRole(),
+  // },
+  // {
+  //   id: randomId(),
+  //   name: randomTraderName(),
+  //   age: 19,
+  //   joinDate: randomCreatedDate(),
+  //   role: randomRole(),
+  // },
+  // {
+  //   id: randomId(),
+  //   name: randomTraderName(),
+  //   age: 28,
+  //   joinDate: randomCreatedDate(),
+  //   role: randomRole(),
+  // },
+  // {
+  //   id: randomId(),
+  //   name: randomTraderName(),
+  //   age: 23,
+  //   joinDate: randomCreatedDate(),
+  //   role: randomRole(),
+  // },
 ];
 
 function EditToolbar(props) {
@@ -86,6 +87,29 @@ function EditToolbar(props) {
 }
 
 export default function FullFeaturedCrudGrid() {
+try {
+  axios.get('http://localhost:8080/get-crud/')
+  .then((response) =>{
+    const data = response.data.map((row) => ({
+      id: row.id,
+      Username: row.Username,
+      Password: row.Password,
+      firstname: row.firstname,
+      lastname: row.lastname,
+      email: row.email,
+      contact: row.contact,
+      joinDate: row.joinDate,
+      updateDate: row.updateDate,
+      role: row.role,
+    }));
+    setRows(data);
+  })
+  
+} catch (error) {
+  console.error('Error fetching data:', error);
+}
+
+
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -132,37 +156,37 @@ export default function FullFeaturedCrudGrid() {
   const columns = [
     { 
       field: 'id',
-      eaderName: 'id',
+      headerName: 'id',
       width: 60,
       editable: true 
     },
     { 
-      field: 'username',
-      eaderName: 'Username',
+      field: 'Username',
+      headerName: 'Username',
       width: 120,
       editable: true 
     },
     { 
-      field: 'password',
-      eaderName: 'Password',
+      field: 'Password',
+      headerName: 'Password',
       width: 100,
       editable: true 
     },
     { 
       field: 'firstname',
-      eaderName: 'Firstname',
+      headerName: 'Firstname',
       width: 170,
       editable: true 
     },
     { 
       field: 'lastname',
-      eaderName: 'lastname',
+      headerName: 'lastname',
       width: 170,
       editable: true 
     },
     { 
       field: 'email',
-      eaderName: 'email',
+      headerName: 'email',
       width: 230,
       editable: true 
     },

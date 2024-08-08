@@ -1,7 +1,7 @@
 import express from "express";
 import homeControllers from "./../controllers/homeController";
 import cors from "cors";
-
+import userController from './../controllers/userController'
 
 
 const router = express();
