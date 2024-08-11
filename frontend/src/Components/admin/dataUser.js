@@ -16,53 +16,10 @@ import {
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 import {
-  randomCreatedDate,
-  randomTraderName,
   randomId,
-  randomArrayItem,
 } from '@mui/x-data-grid-generator';
 
-const roles = ['vendor', 'customer'];
-const randomRole = () => {
-  return randomArrayItem(roles);
-};
-
 const initialRows = [
-  // {
-  //   id: randomId(),
-  //   name: randomTraderName(),
-  //   age: 25,
-  //   joinDate: randomCreatedDate(),
-  //   role: randomRole(),
-  // },
-  // {
-  //   id: randomId(),
-  //   name: randomTraderName(),
-  //   age: 36,
-  //   joinDate: randomCreatedDate(),
-  //   role: randomRole(),
-  // },
-  // {
-  //   id: randomId(),
-  //   name: randomTraderName(),
-  //   age: 19,
-  //   joinDate: randomCreatedDate(),
-  //   role: randomRole(),
-  // },
-  // {
-  //   id: randomId(),
-  //   name: randomTraderName(),
-  //   age: 28,
-  //   joinDate: randomCreatedDate(),
-  //   role: randomRole(),
-  // },
-  // {
-  //   id: randomId(),
-  //   name: randomTraderName(),
-  //   age: 23,
-  //   joinDate: randomCreatedDate(),
-  //   role: randomRole(),
-  // },
 ];
 
 function EditToolbar(props) {
@@ -88,18 +45,18 @@ function EditToolbar(props) {
 
 export default function FullFeaturedCrudGrid() {
 try {
-  axios.get('http://localhost:8080/get-crud/')
+  axios.get('http://localhost:8080/api/datauser/')
   .then((response) =>{
     const data = response.data.map((row) => ({
       id: row.id,
       Username: row.Username,
       Password: row.Password,
-      firstname: row.firstname,
-      lastname: row.lastname,
-      email: row.email,
-      contact: row.contact,
-      joinDate: row.joinDate,
-      updateDate: row.updateDate,
+      firstName: row.firstName,
+      lastName: row.lastName,
+      Email: row.Email,
+      Contact: row.Contact,
+      joinDate: row.createdAt,
+      updateDate: row.updatedAta,
       role: row.role,
     }));
     setRows(data);
@@ -173,25 +130,25 @@ try {
       editable: true 
     },
     { 
-      field: 'firstname',
-      headerName: 'Firstname',
+      field: 'firstName',
+      headerName: 'First name',
       width: 170,
       editable: true 
     },
     { 
-      field: 'lastname',
-      headerName: 'lastname',
+      field: 'lastName',
+      headerName: 'Last name',
       width: 170,
       editable: true 
     },
     { 
-      field: 'email',
-      headerName: 'email',
+      field: 'Email',
+      headerName: 'Email',
       width: 230,
       editable: true 
     },
     {
-      field: 'contact',
+      field: 'Contact',
       headerName: 'Contact',
       width: 130,
       align: 'left',
@@ -201,14 +158,13 @@ try {
     {
       field: 'joinDate',
       headerName: 'Join date',
-      type: 'date',
       width: 130,
       editable: true,
     },
     {
       field: 'updateDate',
       headerName: 'Update date',
-      type: 'date',
+    
       width: 130,
       editable: true,
     },

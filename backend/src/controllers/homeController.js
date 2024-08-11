@@ -30,18 +30,26 @@ let postCRUD = async (req, res) => {
 
 }
 
-let displaygetCRUD = async (req, res) => {
+let dataUser = async (req, res) => {
     let data = await register.getAlluser();
-    console.log(data);
     return res.send(data);
+}
+
+
+
+let Login = async (req, res) => {
+    let data = req.body
+    console.log(data);
+    return res.send(data)
 
 }
 
 
 module.exports = {
     gethomePage: gethomePage,
+    Login : Login,
     postCRUD: postCRUD,
     getCRUD: getCRUD,
     getAboutPage: getAboutPage, 
-    displaygetCRUD: displaygetCRUD,
+    dataUser:dataUser,
 }

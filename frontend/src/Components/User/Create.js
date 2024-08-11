@@ -18,7 +18,7 @@ const Createform = () => {
 
     const workout = {firstName, lastName, Username,Password,Cfpassword,Email,Contact}
     
-    const response = await fetch("http://localhost:8080/post-crud", {
+    const response = await fetch("http://localhost:8080/api/register", {
       method: 'POST',
       body: JSON.stringify(workout),
       headers: {

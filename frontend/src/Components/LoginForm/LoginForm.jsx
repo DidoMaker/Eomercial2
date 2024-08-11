@@ -1,46 +1,56 @@
-import React, { Component } from 'react';
+import React, { Component,useState } from 'react';
 import './LoginForm.css';
 import { FaUser, FaLock } from "react-icons/fa";
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css"></link>
 
-class LoginForm extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            username: '',
-            password: '',
+const LoginForm = () => {
+
+    const [Username, setUsername] = useState('')
+    const [Password, setPassword] = useState('')
+    const [error, setError] = useState(null)
+  
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault()
+  
+      const workout = {Username,Password,error}
+      
+      const response = await fetch("http://localhost:8080/api/login/", {
+        method: 'POST',
+        body: JSON.stringify(workout),
+        headers: {
+          'Content-Type': 'application/json'
         }
+      })
+      const json = await response.json()
+  
+      if (!response.ok) {
+        setError(json.error)
+      }
+      if (response.ok) {
+        setError(null)
+        setUsername('')
+        setPassword('')
+        console.log('new workout added:', json)
+      }
+  
     }
-    handleonChangeUsername = (event) =>{
-        this.setState({
-            username: event.target.value
-        })
-    }
-    handleonChangePassword = (event) =>{
-        this.setState({
-            password: event.target.value
-        })
-    }
-    handleonLogin = () => {
-        console.log('username:' + this.state.username)
-        console.log('password: '+this.state.password)
-    }
-    render(){
+
+
         return (
-            <div className="wrapper">
-                <form action="">
+            <form className="wrapper" onSubmit={handleSubmit}>
                     <h1>Login</h1>
                     <div className="input-box">
                         <input type="text" placeholder="Username" required
-                        value={this.state.username}
-                        onChange={(event) => this.handleonChangeUsername(event)}
+                        value={Username}
+                        onChange={(e) => setUsername(e.target.value)} 
                         />
                         <FaUser className="icon"/>
                     </div>
                     <div className="input-box">
                         <input type="password" placeholder="Password" required
-                        value={this.state.password}
-                        onChange={(event) => this.handleonChangePassword(event)}
+                        value={Password}
+                        onChange={(e) => setPassword(e.target.value)} 
                         />
                         <FaLock className="icon"/>
 
@@ -52,7 +62,8 @@ class LoginForm extends Component {
                         <a href="http://localhost:3000/forget">forgot password</a>
                     </div>
                     <div className=''>
-                        <button type="submit" onClick= {() => {this.handleonLogin() }}>login</button>
+                        <button>Submit</button>
+                        {error && <div className="error">{error}</div>}
                     </div>
                     
                     <div className="register-link">
@@ -69,9 +80,7 @@ class LoginForm extends Component {
                     <div>
                     <a href='http://localhost:3000/admin'>login as admin</a>
                     </div>
-                </form>
-            </div>
+            </form>
         );
     }
-};
 export default LoginForm;
