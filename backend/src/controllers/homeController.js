@@ -41,7 +41,6 @@ let Login = async (req, res) => {
     let data = req.body
     console.log(data);
     return res.send(data)
-
 }
 
 

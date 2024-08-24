@@ -1,6 +1,8 @@
 import React from 'react';
 import "./Create.css"
 import { useState } from 'react'
+import loginService from "../../Service/loginService"
+
 
 const Createform = () => {
   const [firstName, setFirstname] = useState('')
@@ -16,31 +18,14 @@ const Createform = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const workout = {firstName, lastName, Username,Password,Cfpassword,Email,Contact}
     
-    const response = await fetch("http://localhost:8080/api/register", {
-      method: 'POST',
-      body: JSON.stringify(workout),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    const json = await response.json()
-
-    if (!response.ok) {
-      setError(json.error)
-    }
-    if (response.ok) {
-      setError(null)
-      setFirstname('')
-      setLastname('')
-      setUsername('')
-      setPassword('')
-      setCfpassword('')
-      setEmail('')
-      setContact('')
-      console.log('new workout added:', json)
-    }
+    const response = await loginService.register(firstName,lastName,Username, Password,Email,Contact);
+    setFirstname('')
+    setLastname('')
+    setUsername('')
+    setPassword('')
+    setEmail('')
+    setContact('')
 
   }
 

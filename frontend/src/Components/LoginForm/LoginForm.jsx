@@ -1,40 +1,34 @@
-import React, { Component,useState } from 'react';
+import React, { useState } from 'react';
 import './LoginForm.css';
 import { FaUser, FaLock } from "react-icons/fa";
+import loginService from "../../Service/loginService"
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css"></link>
+
 
 const LoginForm = () => {
 
     const [Username, setUsername] = useState('')
     const [Password, setPassword] = useState('')
-    const [error, setError] = useState(null)
-  
-  
+
+    const [message,setMessage] = useState(null)
+
+    
     const handleSubmit = async (e) => {
-      e.preventDefault()
-  
-      const workout = {Username,Password,error}
-      
-      const response = await fetch("http://localhost:8080/api/login/", {
-        method: 'POST',
-        body: JSON.stringify(workout),
-        headers: {
-          'Content-Type': 'application/json'
+    setMessage("");
+    e.preventDefault()
+    setUsername('')
+    setPassword('')
+    try {
+        let data = await loginService.handleLoginAPI(Username, Password);
+        if (data && data.errCode !== 0) {
+            setMessage(data.message)
         }
-      })
-      const json = await response.json()
-  
-      if (!response.ok) {
-        setError(json.error)
-      }
-      if (response.ok) {
-        setError(null)
-        setUsername('')
-        setPassword('')
-        console.log('new workout added:', json)
-      }
-  
+    } catch (error) {
+        console.log(error)
     }
+    console.log(message)
+    }
+
 
 
         return (
@@ -63,7 +57,6 @@ const LoginForm = () => {
                     </div>
                     <div className=''>
                         <button>Submit</button>
-                        {error && <div className="error">{error}</div>}
                     </div>
                     
                     <div className="register-link">
@@ -80,6 +73,7 @@ const LoginForm = () => {
                     <div>
                     <a href='http://localhost:3000/admin'>login as admin</a>
                     </div>
+                    {message && <div className="error">{message}</div>}
             </form>
         );
     }

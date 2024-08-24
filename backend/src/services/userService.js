@@ -17,13 +17,11 @@ let handleUserLogin = (Username, Password) => {
 
                 });
                 if (user) {
-                    //compare Password: dùng cách 1 hay cách 2 đều chạy đúng cả =))
-                    // Cách 1: dùng asynchronous (bất đồng bộ)
+
                     let check = await bcrypt.compare(Password, user.Password);
 
 
-                    // Cách 2: dùng synchronous  (đồng bộ)
-                    // let check = bcrypt.compareSync(Password, user.Password);
+     
 
                     if (check) {
                         userData.errCode = 0;
